@@ -2,238 +2,592 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+KMBotUI is a custom chat-window for websites. This chat-window is intended to be used with a automated conversation agents (chatbots). It re-produces most of the Facebook Messenger rich message formats.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Note: This plug-in can only be used alongside with Kick My Bot products.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
-
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+# Launcher Setup
 
 ```javascript
-const kittn = require('kittn');
+<script src="https://s3-eu-west-1.amazonaws.com/kick-my-bot/launcher/launcher.js"></script>
+```
+In your HTML web page, simply add the launcher.js script written on the right:
 
-let api = kittn.authorize('meowmeowmeow');
+
+# Base Setup
+
+```javascript
+<script>
+  var config = {
+    serverUrl: <Insert your chatbot server URL here />
+  };
+  KMBotUI.init(config);
+</script>
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+This script will inject an object named KMBLauncher into the window object. To activate the script, you'll have to initialize it (see code on the right-hand side). 
+<aside class="warning">
+Note that two options need to be defined in order for the bot to work properly. Those two options are explained below.
+</aside>
+<br/>
+<br/>
+<br/>
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+## serverUrl
+<u>Type:</u> `String`
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+```javascript
+{
+  ...
+  serverUrl: "https://my-bot-url.kickmybot.com/",
+  ...
+}
+```
 
-`Authorization: meowmeowmeow`
+This option corresponds to the chatbot server URL. It is required for the chatbot to work as it will define its behavior.
+<aside class="warning">
+Required
+</aside>
 
+<br/>
+<br/>
+<br/>
+
+## projectName
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  projectName: "My_Bot_Project",
+  ...
+}
+```
+
+This option corresponds to the name of the project on the back office, which the questions in the FAQ section will be synchronized with. Usually provided by Kick My Bot.
+<aside class="warning">
+Highly Recommended
+</aside>
+
+# Style
+
+## primaryColor
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  primaryColor: "#24a6f3",
+  ...
+}
+```
+
+This option sets the main color of the chat window (headers, bot message, bot bubble). The color must be in hexadecimal. 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<b><u>Default:</u></b> `#1abc9c`
 </aside>
+<br/>
 
-# Kittens
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
+## secondaryColor
+<u>Type:</u> `String`
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+{
+  ...
+  secondaryColor: "#5931bf",
+  ...
+}
 ```
 
-> The above command returns JSON structured like this:
+This option sets the secondary color of the chat window (quick replies (CTA), buttons). The color must be in hexadecimal. 
+<aside class="notice">
+<b><u>Default:</u></b> `same as primaryColor`
+</aside>
+<br/>
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+
+## isWhite
+<u>Type:</u> `Boolean`
+
+```javascript
+{
+  ...
+  isWhite: true,
+  ...
+}
+```
+
+This option, if set to `true`, will make the close button on the top right of the welcome page white. It will be black if set to `false`. 
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
+<br/>
+
+
+## headerBackground
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  headerBackground: "https://my-background-url.kickmybot.com/header.png",
+  ...
+}
+```
+This option is the URL of the background image you want to put on the header of the welcome page. The standard size is <b>400x250</b>. If no value is set, a <i>primaryColor</i> colored background will be displayed.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+
+
+<img style="display: block; margin:auto" src="../images/example-header.png"></img>
+<br/>
+
+
+## height
+<u>Type:</u> `Integer`
+
+```javascript
+{
+  ...
+  width: 400,
+  ...
+}
+```
+
+This option sets the width of the main window in pixels.
+<aside class="notice">
+<b><u>Default:</u></b> `400`
+</aside>
+<br/>
+
+
+
+## width
+<u>Type:</u> `Integer`
+
+```javascript
+{
+  ...
+  height: 700,
+  ...
+}
+```
+
+This option sets the height of the main window in pixels.
+<aside class="notice">
+<b><u>Default:</u></b> `700`
+</aside>
+<br/>
+
+
+## bubbleColor
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  bubbleColor: "#dedede",
+  ...
+}
+```
+
+This option sets the speech bubble color. This option is only considered if welcomeMessage is set.
+<aside class="notice">
+<b><u>Default:</u></b> `#8f8f8f`
+</aside>
+<br/>
+
+
+# UI
+
+## title
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  title: "#dedede",
+  ...
+}
+```
+
+This option sets the text that will be displayed in the chat window header. 
+<aside class="notice">
+<b><u>Default:</u></b> `Kick My Bot`
+</aside>
+<br/>
+
+
+## version
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  version: "#dedede",
+  ...
+}
+```
+
+This option sets the chatbot UI version.
+<aside class="notice">
+<b><u>Default:</u></b> `last version available`
+</aside>
+<br/>
+
+
+## botIcon
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  botIcon: "https://my-bot-icon-url.kickmybot.com/icon.png",
+  ...
+}
+```
+
+This option sets the main chatbot's image path. You can specify a remote or local image.
+<aside class="notice">
+<b><u>Default:</u></b> `(displays the Kick My Bot mascot).`
+</aside>
+<br/>
+
+
+## welcomeMessage
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  welcomeMessage: "Hello, I'm BOT. How may I help you ? 🙂",
+  ...
+}
+```
+
+This options sets the text that will be displayed after some time in the speech bubble when the chat window is closed. Do no set if you don't want this additional feature.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+<br/>
+
+
+## welcomeLinks
+<u>Type:</u> `Array`
+
+```javascript
+{
+  ...
+  welcomeLinks: [
+    ...
+    {
+      type: "facebook",
+      url: "https://www.facebook.com/MyFacebookGroup"
+    },
+    {
+      icon: "https://my-custom-website-icon.com/icon.png",
+      url: "https://www.my-website.com/"
+    },
+    ...
+  ],
+  ...
+}
+```
+
+This option sets the list of links you want to display on the welcome page. Links are objects with the `type` (or `icon` (for a custom icon URL)) key (facebook, twitter etc...) and a `url` key (for the link to your desired website).
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+<img style="display: block; margin:auto" src="../images/example-welcome-links.png"></img>
+<br/>
+
+
+## welcomePageText
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  welcomePageText: "Hello, <br/> I'm displayed on the <b>Welcome page</b>. <br/>Click on &quot;Start&quot; to start !",
+  ...
+}
+```
+
+This options is a string with HTML code inside and it sets the message you want to be displayed on the welcome page.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+<img style="display: block; margin:auto" src="../images/example-welcome-page-text.png"></img>
+
+<br/>
+
+## welcomeTimer
+<u>Type:</u> `Integer`
+
+```javascript
+{
+  ...
+  welcomeTimer: 10* 1000, // 10 seconds
+  ...
+}
+```
+
+This option sets the time period (in ms) during which the speech bubble (welcome message) is displayed.
+<aside class="notice">
+<b><u>Default:</u></b> `5000`
+</aside>
+<br/>
+
+
+## welcomeDelay
+<u>Type:</u> `Integer`
+
+```javascript
+{
+  ...
+  welcomeDelay: 12000, // 12 seconds
+  ...
+}
+```
+
+This options sets the delay (in ms) before displaying the speech bubble (welcome message).
+<aside class="notice">
+<b><u>Default:</u></b> `10000`
+</aside>
+<br/>
+
+## redirectionUrl
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  redirectionUrl: "http://www.facebook.com/MyBotPage",
+  ...
+}
+```
+
+This options sets the URL of a Facebook Messenger chatbot. This option will display a messenger icon in the chatbox's header.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+<br/>
+
+## displayWelcomePage
+<u>Type:</u> `Boolean`
+
+```javascript
+{
+  ...
+  displayWelcomePage: true,
+  ...
+}
+```
+
+This option, if set to `true`, displays a welcome page when a user opens the chatbot.
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
+<br/>
+
+## tabsConfig
+<u>Type:</u> `Object`
+
+```javascript
+{
+  ...
+  tabsConfig: {
+    CHAT: {
+        title: "Hello, I'm BOT the bot"
+    },
+    FAQ: {
+        title: "Frequently asked questions"
+    }
   },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+  ...
+}
 ```
 
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+This option sets the configuration for each tab with two keys `CHAT` and `FAQ` and within those keys an `object` with a `title` key that will be the title displayed in the chat header for each tab (required). This option overrides the `title` option defined above.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
 </aside>
 
-## Get a Specific Kitten
+These pictures show the result of the example configuration for the `CHAT` and `FAQ` tab header respectively :
 
-```ruby
-require 'kittn'
+<img style="display: block; margin:auto" src="../images/example-tabs-config-chat.png"></img>
+<br/>
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
+## lang
+<u>Type:</u> `String`
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  ...
+  lang: "en",
+  ...
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This option sets the language used for keywords.
+<aside class="notice">
+<b><u>Default:</u></b> `fr`
+</aside>
+<br/>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
+## hideInput
+<u>Type:</u> `String`
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
 {
-  "id": 2,
-  "deleted" : ":("
+  ...
+  hideInput: "false",
+  ...
 }
 ```
 
-This endpoint deletes a specific kitten.
+This option, if set to `true`, will hide the user input at the bottom of the chat window (for quickreply use only, for example).
+<aside class="notice">
+<b><u>Default:</u></b> `false`
+</aside>
+<br/>
 
-### HTTP Request
+## enableRecorder
+<u>Type:</u> `Boolean`
 
-`DELETE http://example.com/kittens/<ID>`
+```javascript
+{
+  ...
+  enableRecorder: "",
+  ...
+}
+```
 
-### URL Parameters
+This option, if set to true, will display a button in the input area ,allowing speech recording and recognition. 
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+The picture below shows the <i>microphone</i> icon displayed in the input area when the option is set to `true` :
 
+<img style="display: block; margin:auto" src="../images/example-recorder.png">
+</img>
+<br/>
+
+## enableMobile
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  enableMobile: true,
+  ...
+}
+```
+
+This option, if set to `true`, allows the chatbot to be displayed on mobile devices.
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
+<br/>
+
+## registrationKey
+<u>Type:</u> `String`
+
+```javascript
+{
+  ...
+  registration: "A_Registation_Key",
+  ...
+}
+```
+
+This option, if an authorized key is set, will hide the "Powered By Kick My Bot" block under the input area.
+<aside class="notice">
+<b><u>Default:</u></b> `none`
+</aside>
+<br/>
+
+## menu
+<u>Type:</u> `Array`
+
+```javascript
+{
+  ...
+  menu: [
+    ...
+    {
+      type: "postback",
+      title: "Relancer 🔃",
+      payload: "SOME_POSTBACK"
+    },
+    ...
+  ]
+  ...
+}
+```
+
+This option sets the content for the persitent menu, which following the Facebook Messenger API format (see here: https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/persistent-menu). Usually provided by Kick My Bot.
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
+<img style="display: block; margin:auto" src="../images/example-menu.png">
+</img>
+<br/>
+
+## animation
+<u>Type:</u> `Boolean`
+
+```javascript
+{
+  ...
+  animation: true,
+  ...
+}
+```
+
+This option, if set to `true`, will make the launcher icon animated (small bounce effect). Set to `false` if you want to turn this effect off. Do not hesitate to define your own CSS animation if you want to.
+<aside class="notice">
+<b><u>Default:</u></b> `true`
+</aside>
+<br/>
+
+
+
+
+<!-- 
+		"welcomePageText",
+		"welcomeTimer",
+		"welcomeDelay",
+		"redirectionUrl",
+		"serverUrl",
+		"extraChatOptions",
+		"displayWelcomePage",
+		"tabsConfig",
+		"lang",
+		"hideInput",
+		"enableRecorder",
+		"enableMobile",
+		"registrationKey",
+		"menu",
+		"projectName" -->
+# Contact
+
+For all requests/suggestions and support, do not hesitate to contact us at contact@kickmybot.com
+
+<br/>
+<br/>
+<br/>
