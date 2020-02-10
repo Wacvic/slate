@@ -270,6 +270,16 @@ html, body {
     bottom: 0;
   }
 
+  .row {
+    display: flex;
+    margin-right: 50%;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+
   .lang-selector {
     position: fixed;
     z-index: 50;

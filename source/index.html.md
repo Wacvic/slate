@@ -13,34 +13,70 @@ search: true
 
 # Introduction
 
-KMBotUI is a custom chat-window for websites. This chat-window is intended to be used with a automated conversation agents (chatbots). It re-produces most of the Facebook Messenger rich message formats.
+KMBotUI is a custom chat-window for websites. This chat-window is intended to be used with a automated conversation agents (chatbots). It supports a large variety of rich message formats.
 
+<aside class="notice">
 Note: This plug-in can only be used alongside with Kick My Bot products.
+</aside>
 
-# Launcher Setup
+<i>Here is an example of what can be done on the chat-window with this plugin :</i>
 
-```javascript
-<script src="https://s3-eu-west-1.amazonaws.com/kick-my-bot/launcher/launcher.js"></script>
-```
-In your HTML web page, simply add the launcher.js script written on the right:
+ <div class="row">
+  <div class="column">
+    <img src="../images/example-Welcome.png"></img>
+  </div>
+  <div class="column">
+    <img src="../images/example-CHAT.png"></img>  
+  </div>
+  <div class="column">
+    <img src="../images/example-FAQ.png"></img>
+  </div>
+</div> 
 
+<br/>
 
 # Base Setup
 
+## loadScript
+
 ```javascript
-<script>
+function loadScript(src, callback) {
+  var s,
+      r,
+      t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.src = src;
+  s.onload = s.onreadystatechange = function() {
+    if ( !r && (!this.readyState || this.readyState == 'complete') )
+    {
+      r = true;
+      callback();
+    }
+  };
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
+}
+
+loadScript("https://kick-my-bot.s3-eu-west-1.amazonaws.com/KMBotUI_V2/kmbotui.js.gz", function () {  
   var config = {
     serverUrl: <Insert your chatbot server URL here />
   };
   KMBotUI.init(config);
-</script>
-```
+});
 
-This script will inject an object named KMBLauncher into the window object. To activate the script, you'll have to initialize it (see code on the right-hand side). 
+```
+In your HTML web page, simply add and call the loadScript function written on the right:
+
+This function will load the latest version of the chatbot, without disrupting the loading of the page it is put in. After that, call the loadScript function (see code on the right), and set the callback function as follow. The `config` variable will be where your options are set.
+
+This is the recommended way to implement the script onto your webpage.
+
 <aside class="warning">
 Note that two options need to be defined in order for the bot to work properly. Those two options are explained below.
 </aside>
-<br/>
+
 <br/>
 <br/>
 
@@ -60,7 +96,7 @@ This option corresponds to the chatbot server URL. It is required for the chatbo
 Required
 </aside>
 
-<br/>
+
 <br/>
 <br/>
 
@@ -278,7 +314,7 @@ This option sets the main chatbot's image path. You can specify a remote or loca
 }
 ```
 
-This options sets the text that will be displayed after some time in the speech bubble when the chat window is closed. Do no set if you don't want this additional feature.
+This option sets the text that will be displayed after some time in the speech bubble when the chat window is closed. Do no set if you don't want this additional feature.
 <aside class="notice">
 <b><u>Default:</u></b> `none`
 </aside>
@@ -307,7 +343,21 @@ This options sets the text that will be displayed after some time in the speech 
 }
 ```
 
-This option sets the list of links you want to display on the welcome page. Links are objects with the `type` (or `icon` (for a custom icon URL)) key (facebook, twitter etc...) and a `url` key (for the link to your desired website).
+This option sets the list of links you want to display on the welcome page. Links are objects with a `type` key and a `url` key (for the link to your desired website).
+If you want to use a custom icon, you can replace the `type` key with an `icon` and give your custom icon URL as a value.
+
+Allowed values for the `type` key : <br/>
+`facebook`
+- `linkedin`
+- `twitter`
+- `instagram`
+- `snapchat`
+- `youtube`
+- `pinterest`
+- `reddit`
+- `whatsapp`
+- `steam`
+
 <aside class="notice">
 <b><u>Default:</u></b> `none`
 </aside>
@@ -326,7 +376,7 @@ This option sets the list of links you want to display on the welcome page. Link
 }
 ```
 
-This options is a string with HTML code inside and it sets the message you want to be displayed on the welcome page.
+This option sets the introducing message you want to display on the welcome page. HTML is supported.
 <aside class="notice">
 <b><u>Default:</u></b> `none`
 </aside>
@@ -363,7 +413,7 @@ This option sets the time period (in ms) during which the speech bubble (welcome
 }
 ```
 
-This options sets the delay (in ms) before displaying the speech bubble (welcome message).
+This option sets the delay (in ms) before displaying the speech bubble (welcome message).
 <aside class="notice">
 <b><u>Default:</u></b> `10000`
 </aside>
@@ -380,7 +430,7 @@ This options sets the delay (in ms) before displaying the speech bubble (welcome
 }
 ```
 
-This options sets the URL of a Facebook Messenger chatbot. This option will display a messenger icon in the chatbox's header.
+This option sets the URL of a Facebook Messenger chatbot. This option will display a messenger icon in the chatbox's header.
 <aside class="notice">
 <b><u>Default:</u></b> `none`
 </aside>
@@ -471,7 +521,7 @@ This option, if set to `true`, will hide the user input at the bottom of the cha
 ```javascript
 {
   ...
-  enableRecorder: "",
+  enableRecorder: true,
   ...
 }
 ```
@@ -515,10 +565,12 @@ This option, if set to `true`, allows the chatbot to be displayed on mobile devi
 }
 ```
 
-This option, if an authorized key is set, will hide the "Powered By Kick My Bot" block under the input area.
+This option, if an authorized key is set, will hide the "Powered By Kick My Bot" block under the input area. You can ask for a valid key by contacting the following address : <a href="mailto:contact@kickmybot.com">contact@kickmybot.com</a>
 <aside class="notice">
 <b><u>Default:</u></b> `none`
 </aside>
+
+<img style="display: block; margin:auto" src="../images/example-poweredBy.png">
 <br/>
 
 ## menu
@@ -586,7 +638,7 @@ This option, if set to `true`, will make the launcher icon animated (small bounc
 		"projectName" -->
 # Contact
 
-For all requests/suggestions and support, do not hesitate to contact us at contact@kickmybot.com
+For all requests/suggestions and support, do not hesitate to contact us at <a href="mailto:contact@kickmybot.com">contact@kickmybot.com</a>
 
 <br/>
 <br/>
