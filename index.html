@@ -196,7 +196,7 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen-85e39670.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-69ce25e5.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-c5541673.js"></script>
   </head>
@@ -224,11 +224,11 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
-            <a href="#launcher-setup" class="toc-h1 toc-link" data-title="Launcher Setup">Launcher Setup</a>
-          </li>
-          <li>
             <a href="#base-setup" class="toc-h1 toc-link" data-title="Base Setup">Base Setup</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#loadscript" class="toc-h2 toc-link" data-title="loadScript">loadScript</a>
+                  </li>
                   <li>
                     <a href="#serverurl" class="toc-h2 toc-link" data-title="serverUrl">serverUrl</a>
                   </li>
@@ -334,25 +334,65 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>KMBotUI is a custom chat-window for websites. This chat-window is intended to be used with a automated conversation agents (chatbots). It re-produces most of the Facebook Messenger rich message formats.</p>
+<p>KMBotUI is a custom chat-window for websites. This chat-window is intended to be used with a automated conversation agents (chatbots). It supports a large variety of rich message formats.</p>
 
-<p>Note: This plug-in can only be used alongside with Kick My Bot products.</p>
-<h1 id='launcher-setup'>Launcher Setup</h1><pre class="highlight javascript tab-javascript"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"https://s3-eu-west-1.amazonaws.com/kick-my-bot/launcher/launcher.js"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
-</span></code></pre>
-<p>In your HTML web page, simply add the launcher.js script written on the right:</p>
-<h1 id='base-setup'>Base Setup</h1><pre class="highlight javascript tab-javascript"><code><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<aside class="notice">
+Note: This plug-in can only be used alongside with Kick My Bot products.
+</aside>
+
+<p><i>Here is an example of what can be done on the chat-window with this plugin :</i></p>
+
+<p><div class="row">
+  <div class="column">
+    <img src="images/example-Welcome-0ded1575.png"></img>
+  </div>
+  <div class="column">
+    <img src="images/example-CHAT-73a3459f.png"></img><br>
+  </div>
+  <div class="column">
+    <img src="images/example-FAQ-4754f50e.png"></img>
+  </div>
+</div> </p>
+
+<p><br/></p>
+<h1 id='base-setup'>Base Setup</h1><h2 id='loadscript'>loadScript</h2><pre class="highlight javascript tab-javascript"><code><span class="kd">function</span> <span class="nx">loadScript</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">s</span><span class="p">,</span>
+      <span class="nx">r</span><span class="p">,</span>
+      <span class="nx">t</span><span class="p">;</span>
+  <span class="nx">r</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="nx">s</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'script'</span><span class="p">);</span>
+  <span class="nx">s</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">'text/javascript'</span><span class="p">;</span>
+  <span class="nx">s</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span><span class="p">;</span>
+  <span class="nx">s</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nx">r</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">==</span> <span class="s1">'complete'</span><span class="p">)</span> <span class="p">)</span>
+    <span class="p">{</span>
+      <span class="nx">r</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="nx">callback</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="nx">t</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">'script'</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="nx">t</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">t</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">loadScript</span><span class="p">(</span><span class="s2">"https://kick-my-bot.s3-eu-west-1.amazonaws.com/KMBotUI_V2/kmbotui.js.gz"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>  
   <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
     <span class="na">serverUrl</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">Insert</span> <span class="nx">your</span> <span class="nx">chatbot</span> <span class="nx">server</span> <span class="nx">URL</span> <span class="nx">here</span> <span class="o">/&gt;</span>
   <span class="p">};</span>
   <span class="nx">KMBotUI</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
-<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
-</span></code></pre>
-<p>This script will inject an object named KMBLauncher into the window object. To activate the script, you&#39;ll have to initialize it (see code on the right-hand side). 
+<span class="p">});</span>
+
+</code></pre>
+<p>In your HTML web page, simply add and call the loadScript function written on the right:</p>
+
+<p>This function will load the latest version of the chatbot, without disrupting the loading of the page it is put in. After that, call the loadScript function (see code on the right), and set the callback function as follow. The <code>config</code> variable will be where your options are set.</p>
+
+<p>This is the recommended way to implement the script onto your webpage.</p>
+
 <aside class="warning">
 Note that two options need to be defined in order for the bot to work properly. Those two options are explained below.
 </aside>
-<br/>
-<br/>
+
+<p><br/>
 <br/></p>
 <h2 id='serverurl'>serverUrl</h2>
 <p><u>Type:</u> <code>String</code></p>
@@ -368,7 +408,6 @@ Required
 </aside></p>
 
 <p><br/>
-<br/>
 <br/></p>
 <h2 id='projectname'>projectName</h2>
 <p><u>Type:</u> <code>String</code></p>
@@ -522,7 +561,7 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This options sets the text that will be displayed after some time in the speech bubble when the chat window is closed. Do no set if you don&#39;t want this additional feature.
+<p>This option sets the text that will be displayed after some time in the speech bubble when the chat window is closed. Do no set if you don&#39;t want this additional feature.
 <aside class="notice">
 <b><u>Default:</u></b> <code>none</code>
 </aside>
@@ -546,11 +585,26 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This option sets the list of links you want to display on the welcome page. Links are objects with the <code>type</code> (or <code>icon</code> (for a custom icon URL)) key (facebook, twitter etc...) and a <code>url</code> key (for the link to your desired website).
+<p>This option sets the list of links you want to display on the welcome page. Links are objects with a <code>type</code> key and a <code>url</code> key (for the link to your desired website).
+If you want to use a custom icon, you can replace the <code>type</code> key with an <code>icon</code> and give your custom icon URL as a value.</p>
+
+<p>Allowed values for the <code>type</code> key : <br/>
+<code>facebook</code>
+- <code>linkedin</code>
+- <code>twitter</code>
+- <code>instagram</code>
+- <code>snapchat</code>
+- <code>youtube</code>
+- <code>pinterest</code>
+- <code>reddit</code>
+- <code>whatsapp</code>
+- <code>steam</code></p>
+
 <aside class="notice">
-<b><u>Default:</u></b> <code>none</code>
+<b><u>Default:</u></b> `none`
 </aside>
-<img style="display: block; margin:auto" src="images/example-welcome-links-db003e91.png"></img>
+
+<p><img style="display: block; margin:auto" src="images/example-welcome-links-db003e91.png"></img>
 <br/></p>
 <h2 id='welcomepagetext'>welcomePageText</h2>
 <p><u>Type:</u> <code>String</code></p>
@@ -560,7 +614,7 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This options is a string with HTML code inside and it sets the message you want to be displayed on the welcome page.
+<p>This option sets the introducing message you want to display on the welcome page. HTML is supported.
 <aside class="notice">
 <b><u>Default:</u></b> <code>none</code>
 </aside>
@@ -588,7 +642,7 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This options sets the delay (in ms) before displaying the speech bubble (welcome message).
+<p>This option sets the delay (in ms) before displaying the speech bubble (welcome message).
 <aside class="notice">
 <b><u>Default:</u></b> <code>10000</code>
 </aside>
@@ -601,7 +655,7 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This options sets the URL of a Facebook Messenger chatbot. This option will display a messenger icon in the chatbox&#39;s header.
+<p>This option sets the URL of a Facebook Messenger chatbot. This option will display a messenger icon in the chatbox&#39;s header.
 <aside class="notice">
 <b><u>Default:</u></b> <code>none</code>
 </aside>
@@ -673,7 +727,7 @@ Highly Recommended
 <p><u>Type:</u> <code>Boolean</code></p>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="p">...</span>
-  <span class="nl">enableRecorder</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+  <span class="nl">enableRecorder</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
@@ -708,10 +762,12 @@ Highly Recommended
   <span class="p">...</span>
 <span class="p">}</span>
 </code></pre>
-<p>This option, if an authorized key is set, will hide the &quot;Powered By Kick My Bot&quot; block under the input area.
+<p>This option, if an authorized key is set, will hide the &quot;Powered By Kick My Bot&quot; block under the input area. You can ask for a valid key by contacting the following address : <a href="mailto:contact@kickmybot.com">contact@kickmybot.com</a>
 <aside class="notice">
 <b><u>Default:</u></b> <code>none</code>
-</aside>
+</aside></p>
+
+<p><img style="display: block; margin:auto" src="images/example-poweredBy-186936c4.png">
 <br/></p>
 <h2 id='menu'>menu</h2>
 <p><u>Type:</u> <code>Array</code></p>
@@ -767,7 +823,7 @@ Highly Recommended
         "menu",
         "projectName" -->
 <h1 id='contact'>Contact</h1>
-<p>For all requests/suggestions and support, do not hesitate to contact us at contact@kickmybot.com</p>
+<p>For all requests/suggestions and support, do not hesitate to contact us at <a href="mailto:contact@kickmybot.com">contact@kickmybot.com</a></p>
 
 <p><br/>
 <br/>
